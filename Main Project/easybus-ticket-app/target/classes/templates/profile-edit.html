@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e0f4f1; /* Light green background */
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #3cb371; /* Light green theme */
+            padding: 10px 20px;
+            color: white;
+            height: 80px; /* Adjust header height */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .header img {
+            height: 150px; /* Adjust logo size */
+            margin-right: 10px;
+            border-radius: 10px;
+        }
+
+        .header .logo-text {
+            text-align: left;
+            flex: 1;
+        }
+
+        .header .logo-text h2 {
+            margin: 0;
+            font-size: 30px;
+            color: white;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .header .logo-text h3 {
+            margin: 0;
+            font-size: 18px;
+            color: white;
+        }
+
+        .header .name {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .container-wrapper {
+            display: flex;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 1200px;
+            align-items: flex-start; /* Align items to the top */
+        }
+
+        .sidebar {
+            width: 200px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+           
+        }
+
+        .sidebar h2 {
+            font-size: 24px;
+            color: #3cb371;
+            margin-bottom: 15px;
+        }
+
+        .sidebar a {
+            display: block;
+            font-size: 18px;
+            color: #3cb371;
+            text-decoration: none;
+            margin: 10px 0;
+        }
+
+        .sidebar a:hover {
+            text-decoration: underline;
+        }
+
+        .profile-info-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+            background-color: #ffffff; /* White background for the profile info */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%; /* Full width */
+            max-width: 600px; /* Max width for profile info */
+        }
+
+        .profile-info h1 {
+            font-size: 36px;
+            color: #3cb371; /* Light green color */
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Reduced space between form elements */
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 8px;
+            text-align: left; /* Align label to the left */
+        }
+
+        input[type="text"], input[type="number"], input[type="date"], input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, input[type="password"]:focus {
+            border-color: #3cb371;
+            outline: none;
+        }
+
+        form button, .link-container a {
+            background-color: #3cb371;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        form button:hover, .link-container a:hover {
+            background-color: #2e8b57;
+            transform: scale(1.05);
+        }
+
+        .link-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .link-container p {
+            margin: 10px 0;
+        }
+
+        form button.reset-password {
+            background-color: #3cb371; /* Match the "Back to Profile" button */
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        form button.reset-password:hover {
+            background-color: #2e8b57;
+            transform: scale(1.05);
+        }
+
+       .button-container {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: stretch; /* Make buttons stretch to the container's width */
+    gap: 10px; /* Space between buttons */
+    width: 100%; /* Full width of parent container */
+    max-width: 100%; /* Ensure it doesn’t exceed the container width */
+    box-sizing: border-box; /* Include padding and border in the width */
+}
+
+.button-container button {
+    width: 100%; /* Make each button stretch to fill container */
+}
+        .gallery {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px 0;
+            gap: 10px;
+        }
+
+        .gallery img {
+            height: 200px; /* Adjust height */
+            width: auto;
+            border-radius: 8px;
+            transition: transform 0.3s, filter 0.3s;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.1);
+            filter: brightness(1.2);
+        }
+
+        /* Hide scrollbar */
+        .gallery::-webkit-scrollbar {
+            display: none;
+        }
+
+        .faq, .policy, .contact, .about {
+            padding: 20px;
+            background-color: #ffffff; /* White background for sections */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        .faq {
+            text-align: left;
+        }
+
+        .policy, .contact, .about {
+            text-align: center;
+        }
+
+        .faq h2, .policy h2, .contact h2, .about h2 {
+            font-size: 28px;
+            color: #3cb371;
+        }
+
+        .faq p, .policy p, .contact p, .about p {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .faq p {
+            text-align: left;
+        }
+
+        .policy p, .contact p, .about p {
+            text-align: center;
+        }
+        
+        h2{
+        color:#3cb371;
+        margin-left:10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="/logo3.png" alt="logo">
+        <div class="logo-text">
+            <h2>EasyBus.com</h2>
+            <h3>Making your online ticket booking experience easy</h3>
+        </div>
+        <div class="name">Mohamed Azharudeen M</div>
+    </div>
+
+    <div class="container-wrapper">
+        <aside class="sidebar">
+            <h2>Menu</h2>
+            <a href="/profile">Profile</a>
+            <a href="/booking-details">Booking Details</a>
+            <a href="/logout">Logout</a>
+        </aside>
+
+        <div class="profile-info-container">
+            <div class="profile-info">
+                <h1>Edit Profile</h1>
+                <form action="/profile-edit" method="post"  class="button">
+                    <input type="hidden" name="userEmail" th:value="${user.email}"/>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" th:value="${user.name}" required/><br/>
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" th:value="${user.age}" required/><br/>
+                    <label for="dateOfBirth">Date of Birth:</label>
+                    <input type="date" id="dateOfBirth" name="dateOfBirth" th:value="${user.dateOfBirth}" required/><br/>
+                    <div class="button-container">
+                        <button type="submit">Save</button>
+                        <form action="/profile" method="get">
+                            <input type="hidden" name="email" th:value="${userEmail}"/>
+                            <button type="submit" class="back-to-profile">Back to Profile</button>
+                        </form>
+                    </div>
+                </form>
+
+                <h1>Reset Password</h1>
+                <form th:action="@{/reset-password}" method="post" onsubmit="return validatePasswordForm()">
+                                       <input type="hidden" name="email" th:value="${user.email}"/>
+                   <!--  <label for="currentPassword">Current Password:</label>
+                    <input type="password" id="currentPassword" name="currentPassword" required/><br/> -->
+                    <label for="newPassword">New Password:</label>
+                    <input type="password" id="newPassword" name="newPassword" required/><br/>
+                    <label for="confirmNewPassword">Confirm New Password:</label>
+                    <input type="password" id="confirmNewPassword" name="confirmNewPassword" required/><br/>
+                     <span id="password-error" style="color: red; display: none;">Passwords do not match.</span><br/>
+                    <div class="button-container">
+                        <button type="submit" class="reset-password">Reset Password</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    
+    function validatePasswordForm() {
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmNewPassword').value;
+        const errorSpan = document.getElementById('password-error');
+        
+        if (newPassword !== confirmPassword) {
+            errorSpan.style.display = 'inline';
+            return false; // Prevent form submission
+        }
+        
+        errorSpan.style.display = 'none';
+        return true; // Allow form submission
+    }
+    </script>
+
+
+ <h2>Offers</h2>
+    <div class="gallery">
+        <img th:src="@{/offer1.jpg}" alt="offer1">
+        <img th:src="@{/offer2.jpg}" alt="offer2">
+        <img th:src="@{/offer3.jpg}" alt="offer3">
+        <img th:src="@{/offer4.jpg}" alt="offer4">
+        <img th:src="@{/offer5.jpg}" alt="offer5">
+        <img th:src="@{/offer6.jpg}" alt="offer6">
+        <img th:src="@{/offer7.jpg}" alt="offer7">
+    </div>
+    
+    <h2>Bus gallery</h2>
+    <div class="gallery">
+       
+        <img th:src="@{/bus2.jpg}" alt="bus2">
+        <img th:src="@{/bus3.jpg}" alt="bus3">
+        <img th:src="@{/bus4.jpeg}" alt="bus4">
+        <img th:src="@{/bus5.jpeg}" alt="bus5">
+        <img th:src="@{/bus6.jpeg}" alt="bus6">
+        <img th:src="@{/bus7.jpeg}" alt="bus7">
+        <img th:src="@{/bus8.jpeg}" alt="bus8">
+        <img th:src="@{/Bus1.jpg}" alt="bus1">
+        <img th:src="@{/bus9.jpeg}" alt="bus9">
+        <img th:src="@{/bus10.jpg}" alt="bus10">
+        <img th:src="@{/bus11.jpeg}" alt="bus11">
+        <img th:src="@{/bus12.jpg}" alt="bus12">
+        <img th:src="@{/bus13.jpeg}" alt="bus13">
+        <img th:src="@{/bus14.jpeg}" alt="bus14">
+        <img th:src="@{/bus15.jpg}" alt="bus15">
+    </div>
+
+    <hr>
+    <div class="faq">
+        <h2>Frequently Asked Questions</h2>
+        <p><strong>Q: What is EasyBus?</strong></p>
+        <p>A: EasyBus is an online platform for booking bus tickets, providing a seamless experience for travelers.</p>
+        <p><strong>Q: How do I book a ticket?</strong></p>
+        <p>A: You can book a ticket by selecting your route, choosing a bus, and completing the payment process on our website.</p>
+        <p><strong>Q: Can I cancel my booking?</strong></p>
+        <p>A: Yes, you can cancel your booking through your account dashboard, but please check the cancellation policy for details.</p>
+    </div>
+
+    <hr>
+    <div class="policy">
+        <h2>Booking Policy</h2>
+        <p>
+
+1. Booking Confirmation:
+   - All bookings made through EasyBook are confirmed via email or SMS, containing a booking reference number and ticket details. It is essential to provide a valid email address or phone number during booking to receive confirmation and updates.</P><br>
+<p>
+2. Payment Policy:
+   - Full payment is required at the time of booking. EasyBook accepts various payment methods including credit/debit cards and online payment gateways. All transactions are processed securely to ensure the protection of your financial information.
+</P>
+<p>
+3. Cancellation and Refunds:
+   - Cancellations made within 24 hours of booking are eligible for a full refund. Cancellations made after this period may incur a fee, and the amount refunded will be based on the fare rules and timing of the cancellation. Please refer to our detailed cancellation policy for specific conditions and procedures.
+</p>
+<p>
+4. Changes and Modifications:
+   - Modifications to bookings, including changes in travel dates, times, or passenger details, can be made up to 24 hours before the scheduled departure time. Changes are subject to availability and may incur additional charges. Contact our customer support for assistance with modifications.
+</p>
+<p>
+5. No-Show Policy:
+   - In the event of a no-show, where the passenger does not board the bus as scheduled, the booking will be considered void and no refunds or rebookings will be provided. It is important to arrive at the departure point at least 15 minutes before the scheduled departure time to avoid missing your bus. 
+</p>
+<p>
+These policies ensure a clear understanding between EasyBook and our customers, facilitating a smooth booking experience and helping to manage expectations.</p>  
+  
+    </div>
+
+    <hr>
+    <div class="about">
+        <h2>About EasyBus</h2>
+       
+        <p>EasyBook: Your Ultimate Online Ticket Booking Solution -
+
+At EasyBook, we transform the way you book your travel with our seamless and intuitive online ticket booking platform. Whether you're planning a quick getaway or a cross-country adventure, our user-friendly website is designed to make booking bus tickets as straightforward as possible. 
+
+We understand that convenience is key. That’s why EasyBook offers an extensive range of buses traveling to various destinations, ensuring you find the perfect option that fits your schedule and budget. Our platform allows you to search for buses based on your departure and arrival cities, view detailed bus schedules, and book your tickets in just a few clicks.
+
+With EasyBook, you can enjoy a hassle-free booking experience with real-time availability updates and instant confirmation. Our secure payment gateway ensures that your transactions are safe and your personal information is protected. Additionally, our dedicated customer support team is available to assist you with any inquiries or issues, ensuring you have a smooth and enjoyable journey from start to finish.
+
+Experience the ease of online ticket booking with EasyBook and let us make your travel plans simpler and more efficient. Book your next trip with us and travel with confidence, knowing you have the best in ticket booking technology at your fingertips.</p>         
+    
+    </div>
+
+    <hr>
+    <div class="contact">
+        <h2>Contact Details</h2>
+        <p>Email: support@easybus.com</p>
+        <p>Phone: +1-234-567-890</p>
+        <p>Address: 123 Bus Lane, Chennai, Tamil Nadu, India</p>
+    </div>
+
+
+   
+</body>
+</html>
