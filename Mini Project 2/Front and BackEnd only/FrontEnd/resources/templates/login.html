@@ -1,0 +1,130 @@
+ <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #ff7f7f, #ffcccc);
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+            color: #000000; /* Black text color */
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: left; /* Align labels to the left */
+        }
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .error-message {
+            color: black;
+            font-size: 0.9rem;
+            display: inline;
+        }
+        button[type="submit"] {
+            background-color: #d9534f;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button[type="submit"]:hover {
+            background-color: white; 
+            color: red;
+        }
+        .link-container {
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        .link-container a {
+            color: grey;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        .link-container a:hover {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form th:action="@{/login}" method="post" onsubmit="return validateForm()">
+            <div>
+                <label>Email:</label>
+                <input type="email" name="email" id="email" required/>
+               
+            </div>
+            <div>
+                <label>Password:</label>
+                <input type="password" name="password" id="password" required/>
+               
+            </div>
+            <div>
+                <button type="submit">Sign in</button>
+            </div>
+           
+             <p th:text="${error}" style="color: red;"></p>
+        </form>
+        <div class="link-container">
+            <p><a th:href="@{/register}">New User? Register here</a></p>
+            <p><a th:href="@{/forgot-password}">Forgot Password?</a></p>
+        </div>
+    </div>
+
+    <script>
+        function validateForm() {
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            var valid = true;
+
+            if (!emailRegex.test(email)) {
+                document.getElementById("emailError").style.display = "inline";
+                valid = false;
+            } else {
+                document.getElementById("emailError").style.display = "none";
+            }
+
+            return valid;
+        }
+    </script>
+</body>
+</html> 

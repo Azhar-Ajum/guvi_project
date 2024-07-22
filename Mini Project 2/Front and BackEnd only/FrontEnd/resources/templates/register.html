@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #ff7f7f, #ffcccc);
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+        .container {
+            text-align: center; /* Center align content */
+            padding: 30px; /* Reduced padding for better box appearance */
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px; /* Fixed width for the container */
+        }
+        .btn-custom {
+            background-color: #d9534f;
+            color: #ffffff;
+            border: none;
+            font-weight: bold;
+            margin-top: 20px; /* Increased margin for better spacing */
+            padding: 10px 20px;
+            border-radius: 20px; /* Rounded corners */
+            cursor: pointer; /* Add cursor pointer for better UX */
+            transition: background-color 0.3s ease;
+        }
+        .btn-custom:hover {
+            background-color: white;
+            color: red;
+        }
+        h1 {
+            font-size: 2.5rem; /* Slightly reduced font size */
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: fadeInDown 1s;
+            color: black; /* Adjusted text color for better contrast */
+        }
+        form {
+            text-align: left; /* Align form elements to the left */
+            margin-top: 20px; /* Increased margin for better spacing */
+        }
+        label {
+            display: block;
+            margin-bottom: 10px; /* Added margin bottom for spacing */
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        input[type="password"],
+        input[type="date"] {
+            width: calc(100% - 20px); /* Adjusted width to fit container */
+            padding: 10px;
+            margin-bottom: 15px; /* Increased margin bottom for spacing */
+            border: 1px solid #ccc; /* Added border for input fields */
+            border-radius: 5px; /* Rounded corners for input fields */
+            font-size: 1rem; /* Adjusted font size for readability */
+        }
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus,
+        input[type="password"]:focus,
+        input[type="date"]:focus {
+            outline: none;
+            border-color: #d9534f; /* Focus border color */
+        }
+        .error {
+            color: red;
+            font-size: 0.8rem; /* Reduced font size for error messages */
+            margin-top: 5px; /* Added margin top for spacing */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Register</h1>
+        <form th:action="@{/register}" method="post" th:object="${patient}">
+            <!-- Name -->
+            <div>
+                <label>Name:</label>
+                <input type="text" th:field="*{name}" required/>
+                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span>
+            </div>
+            
+            <!-- Email -->
+            <div>
+                <label>Email:</label>
+                <input type="email" th:field="*{email}" required/>
+                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span>
+            </div>
+            
+            <!-- Age -->
+            <div>
+                <label>Age:</label>
+                <input type="number" th:field="*{age}" required/>
+                <span th:if="${#fields.hasErrors('age')}" th:errors="*{age}" class="error"></span>
+            </div>
+            
+            <!-- Date of Birth -->
+            <div>
+                <label>Date of Birth:</label>
+                <input type="date" th:field="*{dateOfBirth}" required/>
+                <span th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}" class="error"></span>
+            </div>
+            
+            <!-- Medical History -->
+            <div>
+                <label>Medical History:</label>
+                <input type="text" th:field="*{medicalhistory}" required/>
+                <span th:if="${#fields.hasErrors('medicalhistory')}" th:errors="*{medicalhistory}" class="error"></span>
+            </div>
+            
+            <!-- Password -->
+            <div>
+                <label>Password:</label>
+                <input type="password" th:field="*{password}" required/>
+                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></span>
+            </div>
+            
+            <!-- Display error message -->
+            <div th:if="${error}" class="error">
+                <span th:text="${error}"></span>
+            </div>
+            
+            <!-- Submit Button -->
+            <div style="text-align: center;">
+                <button type="submit" class="btn-custom">Register</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
