@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Medications</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Global Styles */
+        body {
+            background: linear-gradient(135deg, #ff7f7f, #ffcccc);
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: #f8f9fa; /* Light background */
+            border-bottom: 2px solid #d9534f; /* Red border bottom */
+            border-radius: 0px;
+            width: 100%;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: #d9534f; /* Red color for brand */
+        }
+
+        .navbar-brand img {
+            height: 40px; /* Adjust height of logo */
+            margin-right: 10px; /* Add margin for spacing */
+        }
+
+        .navbar-nav .nav-link {
+            color: #d9534f; /* Red color for links */
+            border-radius: 20px; /* Rounded corners */
+            padding: 10px 20px; /* Padding for buttons */
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            background-color: #d9534f; /* Red hover color */
+            color: white;
+        }
+
+        .dropdown-menu {
+            border-radius: 10px;
+        }
+
+        /* Enhanced Heading Styles */
+        h2, h3, h4, h5, h6 {
+            color: #000000; /* Black heading text */
+            font-weight: bold; /* Bold text */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Drop shadow */
+            text-align: left; /* Center align text */
+            margin:10px;
+        }
+        h1 {
+            color: #000000; /* Black heading text */
+            font-weight: bold; /* Bold text */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Drop shadow */
+            text-align: center; /* Center align text */
+        }
+        
+        p {
+            color: #000000; /* Black heading text */
+            font-weight: bold; /* Bold text */
+            
+            text-align: left; /* Center align text */
+        }
+        
+
+        /* Table Styles */
+        .table {
+            background-color: rgba(255, 255, 255, 0.2); /* Transparent white background */
+            color: #ffffff; /* White text color */
+            border-radius: 20px; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .table th {
+            background-color: #d9534f; /* Red header background */
+            color: #ffffff; /* White header text color */
+            text-align: center; /* Center align text */
+            font-weight: bold;
+            vertical-align: middle; /* Middle align header text */
+        }
+
+        .table td, .table th {
+            border: none; /* No borders */
+            padding: 10px; /* Padding for cells */
+            vertical-align: middle; /* Middle align cell content */
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.1); /* Alternate row background */
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.3); /* Hover row background */
+        }
+
+        /* Medical History Styles */
+        .medical-history {
+            background-color: rgba(255, 255, 255, 0.2); /* Transparent white background */
+            color: #000000; /* Black text color */
+            border-radius: 20px; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            padding: 20px;
+            width: 100%;
+            font-weight: bold; /* Bold text */
+        }
+
+        /* Add Medication Button Styles */
+        .btn-primary {
+            background-color: #d9534f; /* Red background color */
+            border-color: #d9534f; /* Red border color */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #ffffff; /* White background on hover */
+            color: #d9534f; /* Red text on hover */
+            border-color: #d9534f; /* Red border color on hover */
+        }
+
+        /* Back to Profile Button */
+        .back-button {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .table-responsive {
+                overflow-x: auto; /* Horizontal scroll on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="/heartt.png" alt="Logo"> Patient Medication System
+        </a>
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle rounded-pill" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Profile
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <!-- <a class="dropdown-item" href="/profile-info?email=${patient.email}">Profile Information</a> -->
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" th:href="@{/logout}">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+<h1>Medication</h1>
+
+<div class="container mt-4">
+    <div class="medical-history">
+        <h2>Medical History</h2>
+        <p th:text="${patient.medicalhistory}"></p>
+    </div>
+
+    <h2>Medicine Details</h2>
+    
+    <!-- Medication List -->
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Tablet Name</th>
+                    <th>When to Use</th>
+                    <th>Doctor Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Iterate over medications and display each row -->
+                <tr th:each="medication : ${medications}">
+                    <td th:text="${medication.tabletName}"></td>
+                    <td th:text="${medication.whenToUse}"></td>
+                    <td th:text="${medication.doctorName}"></td>
+                    <td>
+                        <!-- Update Button -->
+                        <a th:href="@{/updateMedication/{id}(id=${medication.id},email=${patient.email})}" class="btn btn-sm btn-outline-secondary">Update</a>
+
+                        <!-- Delete Button -->
+                        <form th:action="@{/deleteMedication/{id}(id=${medication.id},email=${patient.email})}" method="post" style="display: inline;">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <!-- If no medications, display a message -->
+                <tr th:if="${#lists.isEmpty(medications)}">
+                    <td colspan="4">No medications found.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add Medication Form -->
+    <h2>Add Medicines</h2>
+    
+    <form method="post" action="/saveMedication">
+        <!-- Add a hidden input field for email -->
+        <input type="hidden" name="email" th:value="${patient.email}" />
+
+        <div class="form-group">
+            <label for="tabletName">Tablet Name:</label>
+            <input type="text" class="form-control" id="tabletName" name="tabletName" required>
+        </div>
+        <div class="form-group">
+            <label for="whenToUse">When to Use:</label>
+            <input type="text" class="form-control" id="whenToUse" name="whenToUse" required>
+        </div>
+        <div class="form-group">
+            <label for="doctorName">Doctor Name:</label>
+            <input type="text" class="form-control" id="doctorName" name="doctorName" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Medication</button>
+    </form>
+
+    <!-- Back to Profile Button -->
+    <div class="back-button">
+        <a th:href="@{/profile(email=${patient.email})}" class="btn btn-outline-light">Back to Profile</a>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
