@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Employee</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0f7da, #a8e6cf);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #2d572c;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            background: rgba(45, 87, 44, 0.85);
+            color: white;
+            padding: 20px;
+            border-radius: 10px 10px 10px 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        select, input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            width: 150px;
+            margin-bottom: 10px;
+            background-color: #ffffff; /* Default background color */
+            color: #2d572c; /* Default text color */
+            outline: none; /* Remove default outline */
+            cursor: pointer; /* Cursor style */
+        }
+
+     
+
+        button {
+            background: #2d572c;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: 10px;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #3b7338;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #2d572c;
+            color: white;
+        }
+
+        td {
+            background-color: #ffffff;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+        }
+
+        .action-buttons form {
+            margin-right: 10px;
+        }
+
+        .action-buttons form button {
+            background: #2d572c;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .action-buttons form button:hover {
+            background: #3b7338;
+        }
+
+        .no-results {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .no-results.show {
+            display: block;
+        }
+
+        a {
+            display: block;
+            margin-top: 20px;
+            color: #2d572c;
+            text-decoration: none;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Search Employee</h1>
+
+        <form id="searchForm" th:action="@{/search}" method="post" onsubmit="return submitForm()">
+            <label>Search by:</label>
+            <select name="searchType">
+                <option value="id" th:selected="${searchType == 'id'}">ID</option>
+                <option value="name" th:selected="${searchType == 'name'}">Name</option>
+            </select>
+            <input type="text" name="searchTerm" th:value="${searchTerm}" required style="margin-left: 10px;" />
+            <button type="submit">Search</button>
+        </form>
+
+        <hr/>
+
+        <div th:if="${employees != null and not #lists.isEmpty(employees)}">
+            <h2>Search Results:</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="employee : ${employees}">
+                        <td th:text="${employee.id}"></td>
+                        <td th:text="${employee.name}"></td>
+                        <td th:text="${employee.age}"></td>
+                        <td th:text="${employee.email}"></td>
+                        <td class="action-buttons">
+                            <form th:action="@{/update-employee}" method="get">
+                                <input type="hidden" name="id" th:value="${employee.id}" />
+                                <button type="submit">Edit</button>
+                            </form>
+                            <form th:action="@{/delete-employee}" method="post">
+                                <input type="hidden" name="id" th:value="${employee.id}" />
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:if="${employees != null and #lists.isEmpty(employees)}" class="no-results show">
+            <p>No employees found.</p>
+        </div>
+
+        <a th:href="@{/}">Back to Home</a>
+    </div>
+
+    <script>
+        function submitForm() {
+            return true; // Ensure form submits normally
+        }
+    </script>
+</body>
+</html>

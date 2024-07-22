@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Management</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            background: linear-gradient(135deg, #e0f7da, #a8e6cf);
+            background-size: cover;
+            color: #2d572c;
+        }
+
+        h1 {
+            font-size: 3em;
+            background: rgba(45, 87, 44, 0.85);
+            color: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0 auto;
+            display: inline-block;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        li {
+            margin: 20px 0;
+        }
+
+        a {
+            display: block;
+            padding: 15px;
+            background: #2d572c;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            background: white;
+            color:green;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .author {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1em;
+            background: rgba(45, 87, 44, 0.85);
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Employee Management System</h1>
+        <ul>
+            <li><a th:href="@{/add-employee}">Add Employee</a></li>
+            <li><a th:href="@{/view-all}">View All Employees</a></li>
+            <li><a th:href="@{/search}">Search Employee</a></li>
+            <li><a th:href="@{/update-delete}">Update/Delete Employee</a></li>
+        </ul>
+        <div class="author">Mohamed Azharudeen M</div>
+    </div>
+</body>
+</html>
